@@ -1,0 +1,4 @@
+[ ] Make UI for placing Tiles
+[ ] Sand / Water flow with Mouse press 
+[ ] Sand or Water flow can be switchable
+[ ] Reset board
