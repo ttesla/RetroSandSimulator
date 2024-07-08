@@ -8,9 +8,9 @@ namespace RetroSim
 {
     public class SimulationManager : MonoBehaviour
     {
+        public static SimulationManager Instance;
+
         public Tilemap Map;
-        public Tile SandTile;
-        public Tile WaterTile;
 
         [Range(0.01f, 1.0f)]
         public float SimulationStepDelay;
@@ -30,12 +30,15 @@ namespace RetroSim
         private Vector3Int mCurrentFlowCellPosition;
         private Vector3Int mPreviousCellPosition;
 
+        private void Awake()
+        {
+            Instance = this;
+        }
+
         private void Start()
         {
             mSandSimulation = new SandSimulation(Map);
             mWaterSimulation = new WaterSimulation(Map);
-
-            mCurrentSelectedFlowTile = SandTile;
 
             StartCoroutine(SimulationRoutine());
             StartCoroutine(TileSpawnRoutine());
@@ -47,21 +50,17 @@ namespace RetroSim
 
             if (Input.GetMouseButton(0)) 
             {
-                MousePositionToTilemapPosition();
+                SetTileFlowPositionWithMousePos();
                 mEnableTileFlow = true;
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha1)) 
-            {
-                mCurrentSelectedFlowTile = SandTile;
-            }
-            else if (Input.GetKeyDown(KeyCode.Alpha2)) 
-            {
-                mCurrentSelectedFlowTile = WaterTile;
             }
         }
 
-        private void MousePositionToTilemapPosition() 
+        public void SetCurrentFlowTile(Tile tile) 
+        {
+            mCurrentSelectedFlowTile = tile;
+        }
+
+        private void SetTileFlowPositionWithMousePos() 
         {
             Vector3 mouseScreenPos = Input.mousePosition;
             Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
@@ -132,22 +131,5 @@ namespace RetroSim
         {
             UnityEngine.Debug.Log(message);
         } 
-
-        private IEnumerator TestFillRoutine() 
-        {
-            int maxY = (Map.size.y) / 2;
-            int startY = -maxY;
-            int maxX = (Map.size.x) / 2 - 2;
-            int startX = -maxX;
-            
-            for (int y = startY; y < maxY; y++)
-            {
-                for (int x = startX; x < maxX; x++)
-                {
-                    Map.SetTile(new Vector3Int(x, y), SandTile);
-                    yield return new WaitForSeconds(0.01f);
-                }
-            }
-        }
     }
 }

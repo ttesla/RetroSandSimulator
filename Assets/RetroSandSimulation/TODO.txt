@@ -1,4 +1,8 @@
-[ ] Make UI for placing Tiles
-[ ] Sand / Water flow with Mouse press 
-[ ] Sand or Water flow can be switchable
-[ ] Reset board
+[ ] Water vs Sand interaction
+[ ] Better UI
+[ ] Bigger Resolution
+[ ] Block Selection for flow and delete?
+[x] Make UI for placing Tiles
+[x] Sand / Water flow with Mouse press 
+[x] Sand or Water flow can be switchable
+[x] Reset board
