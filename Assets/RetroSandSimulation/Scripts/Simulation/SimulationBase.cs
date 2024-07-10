@@ -54,8 +54,21 @@ namespace RetroSim
 
             if (targetTile == null)
             {
+                // Empty tile
                 ReplaceTile(tile, currentPos, targetPos);
                 result = true;
+            }
+            else 
+            {
+                // Check density
+                int currentDensity = DensityMap.Map[tile.name];
+                int density = DensityMap.Map[targetTile.name];
+
+                if (currentDensity > density) 
+                {
+                    ReplaceTile(tile, currentPos, targetPos);
+                    result = true;
+                }
             }
 
             return result;
@@ -63,8 +76,9 @@ namespace RetroSim
 
         private void ReplaceTile(TileBase tile, Vector3Int oldPos, Vector3Int newPos)
         {
+            var targetTile = mTilemap.GetTile(newPos);
             mTilemap.SetTile(newPos, tile);
-            mTilemap.SetTile(oldPos, null);
+            mTilemap.SetTile(oldPos, targetTile);
         }
     }
 }
